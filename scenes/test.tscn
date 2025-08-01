@@ -1,0 +1,81 @@
+[gd_scene load_steps=10 format=3 uid="uid://dlnfkdvt4vp0s"]
+
+[ext_resource type="PackedScene" uid="uid://dkb3k2d5herlc" path="res://prefabs/PlayerController.tscn" id="1_errlg"]
+[ext_resource type="Script" uid="uid://c4rw1rc01hti4" path="res://classes/interaction_system/item.gd" id="2_bl13t"]
+[ext_resource type="Script" uid="uid://bg2jp4kjqjh8t" path="res://scenes/interactable_object_with_required_item.gd" id="3_iyx0m"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bl13t"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_iyx0m"]
+sky_material = SubResource("ProceduralSkyMaterial_bl13t")
+
+[sub_resource type="Environment" id="Environment_74lek"]
+background_mode = 2
+sky = SubResource("Sky_iyx0m")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_j5jx5"]
+size = Vector3(10, 0.1, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_iyx0m"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_74lek"]
+
+[node name="Test" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_74lek")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0199783, -0.0452718, 0)
+use_collision = true
+mesh = SubResource("BoxMesh_j5jx5")
+
+[node name="PlayerController" parent="." instance=ExtResource("1_errlg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 1)
+use_collision = true
+size = Vector3(1, 2, 1)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.55, -1.11759e-08)
+use_collision = true
+size = Vector3(1, 0.9, 1)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
+use_collision = true
+size = Vector3(1, 2, 1)
+
+[node name="Item" type="AnimatableBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.32275, 0.505556, 4.17199)
+script = ExtResource("2_bl13t")
+object_name = " Popa"
+description = " Looks like shit"
+metadata/_custom_type_script = "uid://c4rw1rc01hti4"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Item"]
+shape = SubResource("BoxShape3D_iyx0m")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Item"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00500631, 0, 0)
+
+[node name="InteractableObjectWithRequiredItem" type="AnimatableBody3D" parent="."]
+transform = Transform3D(0.999985, 0.00548031, 0, -0.00548031, 0.999985, 0, 0, 0, 1, -1.05613, 0.571831, 0)
+script = ExtResource("3_iyx0m")
+required_item = 0
+metadata/_custom_type_script = "uid://65wfqnmfq7it"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableObjectWithRequiredItem"]
+shape = SubResource("BoxShape3D_74lek")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="InteractableObjectWithRequiredItem"]

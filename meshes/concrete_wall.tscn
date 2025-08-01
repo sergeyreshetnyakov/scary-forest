@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bktqso12cn5on"]
+
+[ext_resource type="Material" uid="uid://doo7m16cqesig" path="res://materials/concrete_wall.tres" id="1_aac00"]
+
+[node name="ConcreteWall" type="CSGBox3D"]
+size = Vector3(1.5, 3, 0.05)
+material = ExtResource("1_aac00")

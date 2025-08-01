@@ -1,0 +1,17 @@
+[gd_resource type="StandardMaterial3D" load_steps=6 format=3 uid="uid://cwwtycj7564p7"]
+
+[ext_resource type="Texture2D" uid="uid://bh0ljyuw78t2p" path="res://materials/wooden_planks/wood_planks_diff_1k.jpg" id="1_rglmo"]
+[ext_resource type="Texture2D" uid="uid://75gq84oso4ld" path="res://materials/wooden_planks/wood_planks_ao_1k.jpg" id="2_nxowi"]
+[ext_resource type="Texture2D" uid="uid://boyss75ule71a" path="res://materials/wooden_planks/wood_planks_disp_1k.png" id="3_ri6ru"]
+[ext_resource type="Texture2D" uid="uid://cuy0i2qk51u85" path="res://materials/wooden_planks/wood_planks_nor_gl_1k.jpg" id="4_h53qk"]
+[ext_resource type="Texture2D" uid="uid://cygpxmh4k8t3p" path="res://materials/wooden_planks/wood_planks_rough_1k.exr" id="5_meghq"]
+
+[resource]
+albedo_texture = ExtResource("1_rglmo")
+roughness_texture = ExtResource("5_meghq")
+normal_enabled = true
+normal_texture = ExtResource("4_h53qk")
+ao_enabled = true
+ao_texture = ExtResource("2_nxowi")
+heightmap_enabled = true
+heightmap_texture = ExtResource("3_ri6ru")
