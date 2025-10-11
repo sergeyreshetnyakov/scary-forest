@@ -14,3 +14,4 @@ normal_texture = ExtResource("4_n2axi")
 ao_enabled = true
 ao_texture = ExtResource("2_8wapb")
 detail_mask = ExtResource("3_nu1ip")
+uv1_triplanar = true

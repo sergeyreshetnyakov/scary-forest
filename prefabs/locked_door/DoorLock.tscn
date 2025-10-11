@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://badyyil0invor"]
+
+[ext_resource type="Script" uid="uid://b05dp7a2a22u" path="res://prefabs/locked_door/door_lock.gd" id="1_3cemk"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3cemk"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3cemk"]
+size = Vector3(0.3, 0.15, 0.02)
+
+[node name="DoorLock" type="AnimatableBody3D"]
+script = ExtResource("1_3cemk")
+object_name = " Unlock"
+metadata/_custom_type_script = "uid://c1irpby3u2d3b"
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+size = Vector3(0.3, 0.15, 0.02)
+material = SubResource("StandardMaterial3D_3cemk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_3cemk")

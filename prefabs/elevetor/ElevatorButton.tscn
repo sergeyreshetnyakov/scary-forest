@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bja5y3v227w6h"]
+
+[ext_resource type="Script" uid="uid://bk8phi5whvxnp" path="res://prefabs/elevetor/elevator_button.gd" id="1_rvgnl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0ye40"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ecxhl"]
+size = Vector3(0.05, 0.2, 0.2)
+
+[node name="ElevatorButton" type="AnimatableBody3D"]
+script = ExtResource("1_rvgnl")
+object_name = " Activate"
+metadata/_custom_type_script = "uid://c1irpby3u2d3b"
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+size = Vector3(0.05, 0.2, 0.2)
+material = SubResource("StandardMaterial3D_0ye40")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_ecxhl")

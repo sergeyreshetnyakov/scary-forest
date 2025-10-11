@@ -1,0 +1,104 @@
+[gd_scene load_steps=8 format=3 uid="uid://pcq1qtpcq1w7"]
+
+[ext_resource type="Script" uid="uid://doau1jci7wlam" path="res://prefabs/elevetor/elevator.gd" id="1_0ye40"]
+[ext_resource type="Material" uid="uid://duewx5kkbuy87" path="res://materials/fine_grained_wood.tres" id="1_jhgcc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0rc5a"]
+size = Vector3(1.5, 0.05, 1.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jhgcc"]
+size = Vector3(0.05, 0.75, 1.5)
+
+[sub_resource type="Animation" id="Animation_b3c4c"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+
+[sub_resource type="Animation" id="Animation_jhgcc"]
+resource_name = "move_up"
+length = 10.0
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(2, 1, 0, 0, 0, 8, 1, 0, 6, 0)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0ye40"]
+_data = {
+&"RESET": SubResource("Animation_b3c4c"),
+&"move_up": SubResource("Animation_jhgcc")
+}
+
+[node name="Elevator" type="Node3D"]
+script = ExtResource("1_0ye40")
+
+[node name="Body" type="AnimatableBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.975, 0)
+shape = SubResource("BoxShape3D_0rc5a")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.025, 0)
+shape = SubResource("BoxShape3D_0rc5a")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.725, 0.375, 0)
+shape = SubResource("BoxShape3D_jhgcc")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.725, 0.375, 0)
+shape = SubResource("BoxShape3D_jhgcc")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.975, 0)
+size = Vector3(1.5, 0.05, 1.5)
+material = ExtResource("1_jhgcc")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.025, 0)
+size = Vector3(1.5, 0.05, 1.5)
+material = ExtResource("1_jhgcc")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.725, 1, 0.725)
+size = Vector3(0.05, 2, 0.05)
+material = ExtResource("1_jhgcc")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.725, 1, 0.725)
+size = Vector3(0.05, 2, 0.05)
+material = ExtResource("1_jhgcc")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.725, 1, -0.725)
+size = Vector3(0.05, 2, 0.05)
+material = ExtResource("1_jhgcc")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.725, 1, -0.725)
+size = Vector3(0.05, 2, 0.05)
+material = ExtResource("1_jhgcc")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.725, 0.375, 0)
+size = Vector3(0.05, 0.75, 1.4)
+material = ExtResource("1_jhgcc")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.725, 0.375, 0)
+size = Vector3(0.05, 0.75, 1.4)
+material = ExtResource("1_jhgcc")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Body")
+libraries = {
+&"": SubResource("AnimationLibrary_0ye40")
+}

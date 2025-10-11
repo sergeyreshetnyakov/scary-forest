@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bt2d3anxalbd0"]
+
+[ext_resource type="Script" uid="uid://dw8ivcyc4e5ab" path="res://prefabs/steam_pump/steam_pump.gd" id="1_ii02i"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ii02i"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ii02i"]
+size = Vector3(1.5, 1.25, 1)
+
+[node name="SteamPump" type="AnimatableBody3D"]
+script = ExtResource("1_ii02i")
+object_name = " Turn on"
+metadata/_custom_type_script = "uid://c1irpby3u2d3b"
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+size = Vector3(1.5, 1.25, 1)
+material = SubResource("StandardMaterial3D_ii02i")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_ii02i")

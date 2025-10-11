@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c1luhfgunpob"]
+
+[ext_resource type="Material" uid="uid://ds6r76wgc88gl" path="res://materials/rock_wall.tres" id="1_jsmiq"]
+
+[node name="DoorFrame" type="CSGPolygon3D"]
+material_override = ExtResource("1_jsmiq")
+polygon = PackedVector2Array(0, 0, 0, 2.1, 1.2, 2.1, 1.2, 0, 1.1, 0, 1.1, 2, 0.1, 2, 0.1, 0)
+depth = 0.1

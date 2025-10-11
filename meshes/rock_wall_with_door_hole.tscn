@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ct50kxc3ikpr8"]
+
+[ext_resource type="Material" uid="uid://ds6r76wgc88gl" path="res://materials/rock_wall.tres" id="1_x3vqv"]
+
+[node name="CSGPolygon3D" type="CSGPolygon3D"]
+material_override = ExtResource("1_x3vqv")
+polygon = PackedVector2Array(0, 0, 0, 3, 1.5, 3, 1.5, 0, 1.35, 0, 1.35, 2.1, 0.15, 2.1, 0.15, 0)
+depth = 0.05

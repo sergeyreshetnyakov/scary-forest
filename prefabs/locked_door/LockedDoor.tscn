@@ -1,0 +1,70 @@
+[gd_scene load_steps=8 format=3 uid="uid://cdn6uk6bvoy0j"]
+
+[ext_resource type="Script" uid="uid://b6mkyucilmx1y" path="res://prefabs/locked_door/locked_door.gd" id="1_cj0gt"]
+[ext_resource type="Material" uid="uid://cx28nn558mlug" path="res://materials/wooden_gate.tres" id="2_pa20j"]
+[ext_resource type="Material" uid="uid://d4jwsd3uwnfls" path="res://materials/gold.tres" id="3_j278e"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hpegs"]
+size = Vector3(1, 2, 0.05)
+
+[sub_resource type="Animation" id="Animation_5v5kv"]
+length = 0.001
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_be0rx"]
+resource_name = "door_open"
+length = 0.75
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.75, 1, 0, 0.707, 0, 0.707)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oeog6"]
+_data = {
+&"RESET": SubResource("Animation_5v5kv"),
+&"door_open": SubResource("Animation_be0rx")
+}
+
+[node name="Door" type="AnimatableBody3D"]
+script = ExtResource("1_cj0gt")
+success_message = "Unlocked"
+fail_message = "The door is locked"
+object_name_when_required_item_used = "Open"
+object_name = " Locked"
+metadata/_custom_type_script = "uid://65wfqnmfq7it"
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 0)
+size = Vector3(1, 2, 0.05)
+material = ExtResource("2_pa20j")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 0)
+shape = SubResource("BoxShape3D_hpegs")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.865867, 1, 0.0637716)
+radius = 0.05
+material = ExtResource("3_j278e")
+
+[node name="CSGSphere3D2" type="CSGSphere3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.865867, 1, -0.058364)
+radius = 0.05
+material = ExtResource("3_j278e")
+
+[node name="Door" type="Node3D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Door")
+libraries = {
+&"": SubResource("AnimationLibrary_oeog6")
+}

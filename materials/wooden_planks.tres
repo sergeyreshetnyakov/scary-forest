@@ -8,6 +8,8 @@
 
 [resource]
 albedo_texture = ExtResource("1_rglmo")
+metallic = 0.5
+roughness = 0.3
 roughness_texture = ExtResource("5_meghq")
 normal_enabled = true
 normal_texture = ExtResource("4_h53qk")
@@ -15,3 +17,5 @@ ao_enabled = true
 ao_texture = ExtResource("2_nxowi")
 heightmap_enabled = true
 heightmap_texture = ExtResource("3_ri6ru")
+uv1_scale = Vector3(0.75, 0.75, 0.75)
+uv1_triplanar = true

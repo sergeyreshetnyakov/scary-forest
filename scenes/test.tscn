@@ -1,8 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dlnfkdvt4vp0s"]
+[gd_scene load_steps=12 format=3 uid="uid://dlnfkdvt4vp0s"]
 
-[ext_resource type="PackedScene" uid="uid://dkb3k2d5herlc" path="res://prefabs/PlayerController.tscn" id="1_errlg"]
+[ext_resource type="PackedScene" uid="uid://dkb3k2d5herlc" path="res://prefabs/player_controller/PlayerController.tscn" id="1_errlg"]
+[ext_resource type="Script" uid="uid://j5uu1eeqv6nq" path="res://classes/scene.gd" id="1_j5jx5"]
 [ext_resource type="Script" uid="uid://c4rw1rc01hti4" path="res://classes/interaction_system/item.gd" id="2_bl13t"]
-[ext_resource type="Script" uid="uid://bg2jp4kjqjh8t" path="res://scenes/interactable_object_with_required_item.gd" id="3_iyx0m"]
+[ext_resource type="Script" uid="uid://bg2jp4kjqjh8t" path="res://prefabs/interactable_object_with_required_item.gd" id="3_iyx0m"]
+[ext_resource type="PackedScene" uid="uid://dsectdpfsejc2" path="res://prefabs/hub/HUB.tscn" id="4_74lek"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bl13t"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -25,6 +27,8 @@ size = Vector3(10, 0.1, 10)
 [sub_resource type="BoxShape3D" id="BoxShape3D_74lek"]
 
 [node name="Test" type="Node3D"]
+script = ExtResource("1_j5jx5")
+metadata/_custom_type_script = "uid://j5uu1eeqv6nq"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_74lek")
@@ -79,3 +83,5 @@ metadata/_custom_type_script = "uid://65wfqnmfq7it"
 shape = SubResource("BoxShape3D_74lek")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="InteractableObjectWithRequiredItem"]
+
+[node name="HUB" parent="." instance=ExtResource("4_74lek")]

@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=3 uid="uid://bsdcxts3lwftw"]
+
+[ext_resource type="Script" uid="uid://bnb8y3xgogu57" path="res://prefabs/door/door.gd" id="1_io50r"]
+[ext_resource type="Material" uid="uid://cx28nn558mlug" path="res://materials/wooden_gate.tres" id="2_80mqe"]
+[ext_resource type="Material" uid="uid://d4jwsd3uwnfls" path="res://materials/gold.tres" id="3_io50r"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hpegs"]
+size = Vector3(1, 2, 0.05)
+
+[sub_resource type="Animation" id="Animation_5v5kv"]
+length = 0.75
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.75, 1, 0, 0.707, 0, 0.707)
+
+[sub_resource type="Animation" id="Animation_be0rx"]
+resource_name = "door_open"
+length = 0.75
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.75, 1, 0, 0.707, 0, 0.707)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oeog6"]
+_data = {
+&"RESET": SubResource("Animation_5v5kv"),
+&"door_open": SubResource("Animation_be0rx")
+}
+
+[node name="Door" type="AnimatableBody3D"]
+script = ExtResource("1_io50r")
+object_name = " Open"
+metadata/_custom_type_script = "uid://c1irpby3u2d3b"
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 0)
+size = Vector3(1, 2, 0.05)
+material = ExtResource("2_80mqe")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 0)
+shape = SubResource("BoxShape3D_hpegs")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.865867, 1, 0.0637716)
+radius = 0.05
+material = ExtResource("3_io50r")
+
+[node name="CSGSphere3D2" type="CSGSphere3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.865867, 1, -0.058364)
+radius = 0.05
+material = ExtResource("3_io50r")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_oeog6")
+}

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dumrtpx73gy13"]
+
+[ext_resource type="Script" uid="uid://cfhjgcaaeh7qp" path="res://prefabs/locked_door/plank.gd" id="1_3f002"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3f002"]
+size = Vector3(1.25, 0.2, 0.05)
+
+[node name="Plank" type="AnimatableBody3D"]
+script = ExtResource("1_3f002")
+metadata/_custom_type_script = "uid://c1irpby3u2d3b"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_3f002")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+size = Vector3(1.25, 0.2, 0.05)
