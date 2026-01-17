@@ -18,5 +18,5 @@ func unlock() -> void:
 	is_required_item_used = true
 	object_name = object_name_when_required_item_used
 
-func _interact(inventory: Inventory) -> void:
+func _interact(_inventory: Inventory) -> void:
 	switch_state()

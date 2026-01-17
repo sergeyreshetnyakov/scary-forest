@@ -7,9 +7,13 @@ class_name InteractableObjectWithRequiredItem
 @export var object_name_when_required_item_used := ""
 var is_required_item_used := false
 
+signal on_required_item_used
+
 func interact(inventory: Inventory) -> String:
 	if is_required_item_used == false:
 		if inventory.use_item(required_item):
+			on_required_item_used.emit()
+			is_required_item_used = true
 			object_name = object_name_when_required_item_used
 			return success_message
 		else:

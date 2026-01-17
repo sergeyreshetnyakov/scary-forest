@@ -7,6 +7,7 @@ class_name Scene
 enum WaterLevel { NULL, FIRST, SECOND }
 
 signal on_turning_elevator_on
+signal on_turning_electricy(_is_electricy_on: bool)
 
 var water_level := WaterLevel.NULL
 
@@ -34,3 +35,7 @@ func turn_steam_pump_on() -> void:
 	is_steam_pump_on = true
 	turn_elevator_on()
 	print("steam pump is on")
+	
+func on_electricy_turned(_is_electricy_on: bool) -> void:
+	is_electricy_on = _is_electricy_on
+	on_turning_electricy.emit(is_electricy_on)

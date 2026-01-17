@@ -1,7 +1,7 @@
-extends InteractableObject
+extends InteractableObjectWithRequiredItem
 
-signal on_unlock
+signal on_remove
 
 func _interact(_inventory: Inventory) -> void:
-	on_unlock.emit()
+	on_remove.emit()
 	queue_free()

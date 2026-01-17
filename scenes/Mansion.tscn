@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dksqe61xax3ei"]
+[gd_scene load_steps=41 format=3 uid="uid://dksqe61xax3ei"]
 
 [ext_resource type="Script" uid="uid://j5uu1eeqv6nq" path="res://classes/scene.gd" id="1_ej8p8"]
 [ext_resource type="PackedScene" uid="uid://dsectdpfsejc2" path="res://prefabs/hub/HUB.tscn" id="2_u6oil"]
@@ -12,52 +12,209 @@
 [ext_resource type="PackedScene" uid="uid://bsdcxts3lwftw" path="res://prefabs/door/Door.tscn" id="7_umeh7"]
 [ext_resource type="PackedScene" uid="uid://cdn6uk6bvoy0j" path="res://prefabs/locked_door/LockedDoor.tscn" id="8_bg30g"]
 [ext_resource type="PackedScene" uid="uid://bur8ficsy1og6" path="res://meshes/rock_stairs.tscn" id="8_g46q0"]
+[ext_resource type="Material" uid="uid://cwwtycj7564p7" path="res://materials/wooden_planks.tres" id="11_6myag"]
 [ext_resource type="PackedScene" uid="uid://pcq1qtpcq1w7" path="res://prefabs/elevetor/Elevator.tscn" id="11_8wpeq"]
 [ext_resource type="Material" uid="uid://cudrvdcjjouxy" path="res://materials/forest_leaves.tres" id="12_8o6hy"]
-[ext_resource type="Shader" uid="uid://ccvks50nnusjg" path="res://shaders/fog.gdshader" id="13_34o8n"]
+[ext_resource type="Script" uid="uid://cldakc6gdip3y" path="res://scenes/lever.gd" id="12_gs7af"]
+[ext_resource type="Script" uid="uid://bqpcpsnbagfr2" path="res://scenes/book.gd" id="13_gs7af"]
 [ext_resource type="PackedScene" uid="uid://badyyil0invor" path="res://prefabs/locked_door/DoorLock.tscn" id="13_porc7"]
 [ext_resource type="PackedScene" uid="uid://dbfnoqd53dlw3" path="res://meshes/rock_wall_with_window.tscn" id="14_jehmk"]
+[ext_resource type="Script" uid="uid://2edm13e263nf" path="res://scenes/lostbook.gd" id="14_uj1kv"]
+[ext_resource type="PackedScene" uid="uid://dumrtpx73gy13" path="res://prefabs/locked_door/Plank.tscn" id="15_porc7"]
 [ext_resource type="PackedScene" uid="uid://bja5y3v227w6h" path="res://prefabs/elevetor/ElevatorButton.tscn" id="15_q627l"]
 [ext_resource type="PackedScene" uid="uid://bt2d3anxalbd0" path="res://prefabs/steam_pump/steam_pump.tscn" id="16_xhc76"]
+[ext_resource type="Script" uid="uid://c4rw1rc01hti4" path="res://classes/interaction_system/item.gd" id="18_e0fcm"]
+[ext_resource type="PackedScene" uid="uid://b3iocooo75wyt" path="res://prefabs/crowbar/Crowbar.tscn" id="19_2t25u"]
 [ext_resource type="PackedScene" uid="uid://evampalu8d8m" path="res://prefabs/pump/Pump.tscn" id="19_76mrf"]
+[ext_resource type="PackedScene" uid="uid://bddhiumpn6442" path="res://prefabs/electrical_panel/ElectricalPanel.tscn" id="21_0jsh7"]
 
-[sub_resource type="Environment" id="Environment_g46q0"]
-background_mode = 1
-background_color = Color(0.741385, 0.741385, 0.741385, 1)
+[sub_resource type="Environment" id="Environment_uj1kv"]
 tonemap_mode = 3
+ssr_enabled = true
 ssao_enabled = true
 ssil_enabled = true
-sdfgi_read_sky_light = false
-sdfgi_bounce_feedback = 1.5
-glow_enabled = true
-glow_normalized = true
-volumetric_fog_enabled = true
-volumetric_fog_density = 0.005
+sdfgi_enabled = true
+sdfgi_use_occlusion = true
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_34o8n"]
-shader = ExtResource("13_34o8n")
-shader_parameter/base_density = 0.8
-shader_parameter/base_color = Color(0.82606, 0.82606, 0.82606, 1)
-shader_parameter/fade_out_height = 6.0
-shader_parameter/fade_out_distance = 2.0
-shader_parameter/noise_amounts = Vector3(1, 1, 1)
-shader_parameter/noise_scales = Vector3(5, 5, 10)
-shader_parameter/noise_velocity1 = Vector3(0.5, 0, 0)
-shader_parameter/noise_velocity2 = Vector3(1, 0, 0)
-shader_parameter/noise_velocity3 = Vector3(0, 0.6, 0.3)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bfxlv"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bfxlv"]
+size = Vector3(0.2, 0.75, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uj1kv"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ensqo"]
+size = Vector3(0.1, 0.25, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0jsh7"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2t25u"]
+size = Vector3(0.2, 0.2, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gs7af"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uj1kv"]
+size = Vector3(0.4, 0.5, 0.05)
+
+[sub_resource type="Shader" id="Shader_uj1kv"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.4.stable.mono's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix, depth_draw_always, cull_back, diffuse_burley, specular_schlick_ggx;
+
+uniform float time_multiplayer;
+
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;
+uniform ivec2 albedo_texture_size;
+uniform float point_size : hint_range(0.1, 128.0, 0.1);
+
+uniform float roughness : hint_range(0.0, 1.0);
+uniform sampler2D texture_metallic : hint_default_white, filter_linear_mipmap, repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r, filter_linear_mipmap, repeat_enable;
+
+uniform float specular : hint_range(0.0, 1.0, 0.01);
+uniform float metallic : hint_range(0.0, 1.0, 0.01);
+
+uniform sampler2D texture_refraction : filter_linear_mipmap, repeat_enable;
+uniform float refraction : hint_range(-1.0, 1.0, 0.001);
+uniform vec4 refraction_texture_channel;
+uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_linear_mipmap;
+uniform sampler2D depth_texture : hint_depth_texture, repeat_disable, filter_nearest;
+
+uniform sampler2D texture_normal : hint_roughness_normal, filter_linear_mipmap, repeat_enable;
+uniform float normal_scale : hint_range(-16.0, 16.0);
+varying vec3 uv1_triplanar_pos;
+
+uniform float uv1_blend_sharpness : hint_range(0.0, 150.0, 0.001);
+varying vec3 uv1_power_normal;
+
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+void vertex() {
+	vec3 normal = MODEL_NORMAL_MATRIX * NORMAL;
+
+	TANGENT = vec3(0.0, 0.0, -1.0) * abs(normal.x);
+	TANGENT += vec3(1.0, 0.0, 0.0) * abs(normal.y);
+	TANGENT += vec3(1.0, 0.0, 0.0) * abs(normal.z);
+	TANGENT = inverse(MODEL_NORMAL_MATRIX) * normalize(TANGENT);
+
+	BINORMAL = vec3(0.0, 1.0, 0.0) * abs(normal.x);
+	BINORMAL += vec3(0.0, 0.0, -1.0) * abs(normal.y);
+	BINORMAL += vec3(0.0, 1.0, 0.0) * abs(normal.z);
+	BINORMAL = inverse(MODEL_NORMAL_MATRIX) * normalize(BINORMAL);
+
+	// UV1 Triplanar: Enabled (with World Triplanar)
+	uv1_power_normal = pow(abs(normal), vec3(uv1_blend_sharpness));
+	uv1_triplanar_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz * uv1_scale + uv1_offset + TIME * time_multiplayer;
+	uv1_power_normal /= dot(uv1_power_normal, vec3(1.0));
+	uv1_triplanar_pos *= vec3(1.0, -1.0, 1.0);
+}
+
+vec4 triplanar_texture(sampler2D p_sampler, vec3 p_weights, vec3 p_triplanar_pos) {
+	vec4 samp = vec4(0.0);
+	samp += texture(p_sampler, p_triplanar_pos.xy) * p_weights.z;
+	samp += texture(p_sampler, p_triplanar_pos.xz) * p_weights.y;
+	samp += texture(p_sampler, p_triplanar_pos.zy * vec2(-1.0, 1.0)) * p_weights.x;
+	return samp;
+}
+
+void fragment() {
+	vec4 albedo_tex = triplanar_texture(texture_albedo, uv1_power_normal, uv1_triplanar_pos);
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+
+	float metallic_tex = dot(triplanar_texture(texture_metallic, uv1_power_normal, uv1_triplanar_pos), metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	SPECULAR = specular;
+
+	vec4 roughness_texture_channel = vec4(1.0, 0.0, 0.0, 0.0);
+	float roughness_tex = dot(triplanar_texture(texture_roughness, uv1_power_normal, uv1_triplanar_pos), roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness;
+
+	// Normal Map: Enabled
+	NORMAL_MAP = triplanar_texture(texture_normal, uv1_power_normal, uv1_triplanar_pos).rgb;
+	NORMAL_MAP_DEPTH = normal_scale;
+
+	// Refraction: Enabled (with normal map texture)
+	vec3 unpacked_normal = NORMAL_MAP;
+	unpacked_normal.xy = unpacked_normal.xy * 2.0 - 1.0;
+	unpacked_normal.z = sqrt(max(0.0, 1.0 - dot(unpacked_normal.xy, unpacked_normal.xy)));
+	vec3 ref_normal = normalize(mix(
+			NORMAL,
+			TANGENT * unpacked_normal.x + BINORMAL * unpacked_normal.y + NORMAL * unpacked_normal.z,
+			NORMAL_MAP_DEPTH));
+	vec2 ref_ofs = SCREEN_UV - ref_normal.xy * dot(triplanar_texture(texture_refraction, uv1_power_normal, uv1_triplanar_pos), refraction_texture_channel) * refraction;
+
+	float ref_amount = 1.0 - albedo.a * albedo_tex.a;
+
+	float refraction_depth_tex = textureLod(depth_texture, ref_ofs, 0.0).r;
+	vec4 refraction_view_pos = INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2.0 - 1.0, refraction_depth_tex, 1.0);
+	refraction_view_pos.xyz /= refraction_view_pos.w;
+
+	// If the depth buffer is lower then the model's Z position, use the refracted UV, otherwise use the normal screen UV.
+	// At low depth differences, decrease refraction intensity to avoid sudden discontinuities.
+	EMISSION += textureLod(screen_texture, mix(SCREEN_UV, ref_ofs, smoothstep(0.0, 1.0, VERTEX.z - refraction_view_pos.z)), ROUGHNESS * 8.0).rgb * ref_amount * EXPOSURE;
+	ALBEDO *= 1.0 - ref_amount;
+	// Force transparency on the material (required for refraction).
+	ALPHA = 1.0;
+}
+"
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_uj1kv"]
+noise_type = 2
+frequency = 0.0121
+fractal_octaves = 4
+fractal_lacunarity = 1.995
+fractal_gain = 0.65
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ensqo"]
+seamless = true
+as_normal_map = true
+bump_strength = 12.5
+noise = SubResource("FastNoiseLite_uj1kv")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ensqo"]
+render_priority = 0
+shader = SubResource("Shader_uj1kv")
+shader_parameter/time_multiplayer = 0.01
+shader_parameter/albedo = Color(0.0156863, 0.101961, 0.12549, 0.380392)
+shader_parameter/albedo_texture_size = Vector2i(0, 0)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 0.0
+shader_parameter/metallic_texture_channel = Vector4(1, 0, 0, 0)
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/texture_refraction = SubResource("NoiseTexture2D_ensqo")
+shader_parameter/refraction = 0.05
+shader_parameter/refraction_texture_channel = Vector4(1, 0, 0, 0)
+shader_parameter/texture_normal = SubResource("NoiseTexture2D_ensqo")
+shader_parameter/normal_scale = 1.0
+shader_parameter/uv1_blend_sharpness = 1.0
+shader_parameter/uv1_scale = Vector3(0.1, 0.1, 0.1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
 
 [node name="Mansion" type="Node3D"]
 script = ExtResource("1_ej8p8")
 metadata/_custom_type_script = "uid://j5uu1eeqv6nq"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_g46q0")
+environment = SubResource("Environment_uj1kv")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-1, 6.18172e-08, -6.18172e-08, 0, 0.707107, 0.707107, 8.74228e-08, 0.707107, -0.707107, 0, 0, 0)
-light_energy = 2.5
 shadow_enabled = true
-shadow_bias = 0.0
+shadow_bias = 0.003
+directional_shadow_mode = 1
 
 [node name="PlayerController" parent="." instance=ExtResource("3_m8407")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
@@ -65,6 +222,45 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 [node name="HUB" parent="." instance=ExtResource("2_u6oil")]
 
 [node name="Lightning" type="Node3D" parent="."]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lightning"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 5, 5)
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Lightning"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 5, 8.4)
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="Lightning"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 5, 8.4)
+
+[node name="OmniLight3D4" type="OmniLight3D" parent="Lightning"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.9, 5, 8.4)
+
+[node name="OmniLight3D5" type="OmniLight3D" parent="Lightning"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.9, 5, 4)
+
+[node name="OmniLight3D6" type="OmniLight3D" parent="Lightning"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.9, 5, 1)
+
+[node name="OmniLight3D8" type="OmniLight3D" parent="Lightning"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.9, 2.5, 0.7)
+
+[node name="OmniLight3D9" type="OmniLight3D" parent="Lightning"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 2.5, 0.7)
+
+[node name="OmniLight3D10" type="OmniLight3D" parent="Lightning"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 2.5, 5.7)
+
+[node name="OmniLight3D11" type="OmniLight3D" parent="Lightning"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.3, 2.5, 5.7)
+
+[node name="OmniLight3D12" type="OmniLight3D" parent="Lightning"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.7, 2.5, 6.7)
+
+[node name="OmniLight3D13" type="OmniLight3D" parent="Lightning"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6, 2.5, 6.7)
+
+[node name="OmniLight3D7" type="OmniLight3D" parent="Lightning"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 5, 1)
 
 [node name="Geometry" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, 0.75)
@@ -562,6 +758,30 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.00055, 12.0183)
 
 [node name="WoodenFloor396" parent="Geometry" instance=ExtResource("4_8ok6j")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 3.00055, 12.0183)
+
+[node name="WoodenFloor480" parent="Geometry" instance=ExtResource("4_8ok6j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 3.00055, 13.5409)
+
+[node name="WoodenFloor481" parent="Geometry" instance=ExtResource("4_8ok6j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 3.00055, 13.5409)
+
+[node name="WoodenFloor482" parent="Geometry" instance=ExtResource("4_8ok6j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1, 3.00055, 13.5409)
+
+[node name="WoodenFloor483" parent="Geometry" instance=ExtResource("4_8ok6j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 3.00055, 15.0409)
+
+[node name="WoodenFloor484" parent="Geometry" instance=ExtResource("4_8ok6j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 3.00055, 15.0409)
+
+[node name="WoodenFloor485" parent="Geometry" instance=ExtResource("4_8ok6j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1, 3.00055, 15.0409)
+
+[node name="WoodenFloor486" parent="Geometry" instance=ExtResource("4_8ok6j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0999999, 3.00055, 13.5183)
+
+[node name="WoodenFloor487" parent="Geometry" instance=ExtResource("4_8ok6j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0999999, 3.00055, 15.0183)
 
 [node name="WoodenFloor397" parent="Geometry" instance=ExtResource("4_8ok6j")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 3.00055, 12.0183)
@@ -2505,6 +2725,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 4.525, 12.742)
 [node name="ConcreteWall383" parent="Geometry" instance=ExtResource("5_bg30g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 4.525, 12.742)
 
+[node name="ConcreteWall568" parent="Geometry" instance=ExtResource("5_bg30g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.525, 15.742)
+
+[node name="ConcreteWall572" parent="Geometry" instance=ExtResource("5_bg30g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 4.525, 15.742)
+
+[node name="ConcreteWall573" parent="Geometry" instance=ExtResource("5_bg30g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 4.525, 15.742)
+
+[node name="ConcreteWall576" parent="Geometry" instance=ExtResource("5_bg30g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.55, 4.525, 15.742)
+size = Vector3(1.6, 3, 0.05)
+
 [node name="ConcreteWall167" parent="Geometry" instance=ExtResource("5_bg30g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 4.525, 18.725)
 
@@ -2633,6 +2866,15 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5.25,
 
 [node name="ConcreteWall365" parent="Geometry" instance=ExtResource("5_bg30g")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.75, 4.525, 13.5)
+
+[node name="ConcreteWall559" parent="Geometry" instance=ExtResource("5_bg30g")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.75, 4.525, 15)
+
+[node name="ConcreteWall563" parent="Geometry" instance=ExtResource("5_bg30g")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.35, 4.525, 13.5)
+
+[node name="ConcreteWall567" parent="Geometry" instance=ExtResource("5_bg30g")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.35, 4.525, 15)
 
 [node name="ConcreteWall370" parent="Geometry" instance=ExtResource("5_bg30g")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.75, 4.525, 12)
@@ -3678,7 +3920,130 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -3.554
 [node name="Stairs18" parent="Geometry" instance=ExtResource("8_g46q0")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -2.05295, 3.01889, 12.75)
 
+[node name="CSGBox3D2" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.2, 1.23803, 12.4)
+use_collision = true
+size = Vector3(0.75, 2.5, 2.25)
+material = ExtResource("11_6myag")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.2, 1.23803, 16.1)
+use_collision = true
+size = Vector3(0.75, 2.5, 2.25)
+material = ExtResource("11_6myag")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.9, 1.23803, 12.4)
+use_collision = true
+size = Vector3(0.75, 2.5, 2.25)
+material = ExtResource("11_6myag")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.9, 1.23803, 16.1)
+use_collision = true
+size = Vector3(0.75, 2.5, 2.25)
+material = ExtResource("11_6myag")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 1.23803, 12.4)
+use_collision = true
+size = Vector3(0.75, 2.5, 2.25)
+material = ExtResource("11_6myag")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 1.23803, 16.1)
+use_collision = true
+size = Vector3(0.75, 2.5, 2.25)
+material = ExtResource("11_6myag")
+
+[node name="Ground" type="CSGCombiner3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, -0.75)
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Geometry/Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 11.85)
+material_override = ExtResource("12_8o6hy")
+size = Vector3(53.6, 0.001, 48.3)
+material = ExtResource("12_8o6hy")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Geometry/Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.25, 0, 10.65)
+operation = 2
+size = Vector3(1.7, 1, 3.1)
+
 [node name="InteractableObjects" type="Node3D" parent="."]
+
+[node name="Library" type="Node3D" parent="InteractableObjects"]
+
+[node name="Lever" type="AnimatableBody3D" parent="InteractableObjects/Library"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.39149, 1.4, 19.4104)
+script = ExtResource("12_gs7af")
+object_name = " Pull"
+interaction_message = " It doesn't budge"
+metadata/_custom_type_script = "uid://c1irpby3u2d3b"
+
+[node name="CSGBox3D" type="CSGBox3D" parent="InteractableObjects/Library/Lever"]
+size = Vector3(0.2, 0.75, 0.1)
+material = SubResource("StandardMaterial3D_bfxlv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableObjects/Library/Lever"]
+shape = SubResource("BoxShape3D_bfxlv")
+
+[node name="Timer" type="Timer" parent="InteractableObjects/Library/Lever"]
+wait_time = 15.0
+
+[node name="Book" type="AnimatableBody3D" parent="InteractableObjects/Library"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.1, 16.9)
+script = ExtResource("14_uj1kv")
+required_item = 1
+fail_message = " I guess, something is missing here"
+object_name_when_required_item_used = "Push"
+object_name = "Insert"
+interaction_message = ""
+metadata/_custom_type_script = "uid://c1irpby3u2d3b"
+
+[node name="CSGBox3D" type="CSGBox3D" parent="InteractableObjects/Library/Book"]
+size = Vector3(0.1, 0.25, 0.25)
+material = SubResource("StandardMaterial3D_uj1kv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableObjects/Library/Book"]
+shape = SubResource("BoxShape3D_ensqo")
+
+[node name="Book2" type="AnimatableBody3D" parent="InteractableObjects/Library"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.82299, 1.1, 12.8693)
+script = ExtResource("13_gs7af")
+object_name = " Push"
+disabled = true
+metadata/_custom_type_script = "uid://c1irpby3u2d3b"
+
+[node name="CSGBox3D" type="CSGBox3D" parent="InteractableObjects/Library/Book2"]
+size = Vector3(0.1, 0.25, 0.25)
+material = SubResource("StandardMaterial3D_uj1kv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableObjects/Library/Book2"]
+shape = SubResource("BoxShape3D_ensqo")
+
+[node name="Book3" type="AnimatableBody3D" parent="InteractableObjects/Library"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.523, 1.1, 12.8693)
+script = ExtResource("13_gs7af")
+object_name = " Push"
+disabled = true
+metadata/_custom_type_script = "uid://c1irpby3u2d3b"
+
+[node name="CSGBox3D" type="CSGBox3D" parent="InteractableObjects/Library/Book3"]
+size = Vector3(0.1, 0.25, 0.25)
+material = SubResource("StandardMaterial3D_uj1kv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableObjects/Library/Book3"]
+shape = SubResource("BoxShape3D_ensqo")
+
+[node name="DoorFrame21" parent="InteractableObjects/Library" instance=ExtResource("7_8ok6j")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -4.68885, 0.0259939, 19.4262)
+polygon = PackedVector2Array(0, 0, -0.00980747, 0.205233, -0.0110915, 0.486817, -0.0181313, 0.879381, 0, 2.1, 1.2, 2.1, 1.2, 0, 1.1, 0, 1.1, 2, 0.1, 2, 0.1, 0)
+
+[node name="Door" parent="InteractableObjects/Library/DoorFrame21" instance=ExtResource("8_bg30g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0999999, 0, -0.0497704)
+success_message = ""
 
 [node name="Doors" type="Node3D" parent="InteractableObjects"]
 
@@ -3707,6 +4072,10 @@ polygon = PackedVector2Array(0, 0, 0, 0.2, 0, 2.1, 1.2, 2.1, 1.2, 0, 1.1, 0, 1.1
 
 [node name="Door" parent="InteractableObjects/Doors/DoorFrame40" instance=ExtResource("8_bg30g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0, -0.0497227)
+fail_message = "The door is blocked by the planks"
+
+[node name="Plank" parent="InteractableObjects/Doors/DoorFrame40" instance=ExtResource("15_porc7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 1.3, -0.0999994)
 
 [node name="DoorFrame41" parent="InteractableObjects/Doors" instance=ExtResource("7_8ok6j")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.14563, 3.05, 7.54728)
@@ -3714,6 +4083,10 @@ polygon = PackedVector2Array(0, 0, 0, 0.2, 0, 2.1, 1.2, 2.1, 1.2, 0, 1.1, 0, 1.1
 
 [node name="Door" parent="InteractableObjects/Doors/DoorFrame41" instance=ExtResource("8_bg30g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0, -0.0497227)
+fail_message = "The door is blocked by the planks"
+
+[node name="Plank" parent="InteractableObjects/Doors/DoorFrame41" instance=ExtResource("15_porc7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 1.2, -0.0999999)
 
 [node name="DoorFrame42" parent="InteractableObjects/Doors" instance=ExtResource("7_8ok6j")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.14563, 3.05, 7.54728)
@@ -3721,6 +4094,7 @@ polygon = PackedVector2Array(0, 0, 0, 0.2, 0, 2.1, 1.2, 2.1, 1.2, 0, 1.1, 0, 1.1
 
 [node name="Door" parent="InteractableObjects/Doors/DoorFrame42" instance=ExtResource("8_bg30g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0, -0.0497227)
+fail_message = "The door is jammed"
 
 [node name="DoorFrame48" parent="InteractableObjects/Doors" instance=ExtResource("7_8ok6j")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 16.5887, 3.05, 14.8551)
@@ -3763,8 +4137,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.104674, -0.00668287, -0.036
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 2.84957, 0.0165887, 16.4055)
 polygon = PackedVector2Array(0, 0, -0.00980747, 0.205233, 0, 2.1, 1.2, 2.1, 1.2, 0, 1.1, 0, 1.1, 2, 0.1, 2, 0.1, 0)
 
-[node name="Door" parent="InteractableObjects/Doors/DoorFrame15" instance=ExtResource("7_umeh7")]
+[node name="Door" parent="InteractableObjects/Doors/DoorFrame15" instance=ExtResource("8_bg30g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.112812, 0, -0.0449791)
+fail_message = "The door is blocked by the planks"
+
+[node name="DoorLock2" parent="InteractableObjects/Doors/DoorFrame15" instance=ExtResource("13_porc7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.10453, 1.18341, -0.1)
 
 [node name="DoorFrame25" parent="InteractableObjects/Doors" instance=ExtResource("7_8ok6j")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.16324, -4.48341, 15)
@@ -3788,6 +4166,9 @@ polygon = PackedVector2Array(0, 0, -0.00980747, 0.205233, 0, 2.1, 1.2, 2.1, 1.2,
 [node name="Door" parent="InteractableObjects/Doors/DoorFrame4" instance=ExtResource("8_bg30g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.116905, 0, -0.0452852)
 fail_message = "The door is locked from the other side"
+
+[node name="DoorLock" parent="InteractableObjects/Doors/DoorFrame4" instance=ExtResource("13_porc7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 1.2, -0.200001)
 
 [node name="DoorFrame5" parent="InteractableObjects/Doors" instance=ExtResource("7_8ok6j")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.6632, 0.0165887, 18.0636)
@@ -3966,6 +4347,10 @@ polygon = PackedVector2Array(0, 0, -0.00980747, 0.205233, 0, 2.1, 1.2, 2.1, 1.2,
 
 [node name="Door" parent="InteractableObjects/Doors/DoorFrame22" instance=ExtResource("8_bg30g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.110689, 0, -0.066164)
+fail_message = "The door is locked from the other side"
+
+[node name="DoorLock" parent="InteractableObjects/Doors/DoorFrame22" instance=ExtResource("13_porc7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 1.2, -0.0999999)
 
 [node name="DoorFrame50" parent="InteractableObjects/Doors" instance=ExtResource("7_8ok6j")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.47797, 6.01603, 14.8555)
@@ -3973,6 +4358,7 @@ polygon = PackedVector2Array(0, 0, -0.00980747, 0.205233, 0, 2.1, 1.2, 2.1, 1.2,
 
 [node name="Door" parent="InteractableObjects/Doors/DoorFrame50" instance=ExtResource("8_bg30g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.110689, 0, -0.066164)
+required_item = 8
 
 [node name="DoorFrame14" parent="InteractableObjects/Doors" instance=ExtResource("7_8ok6j")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 3.03966, 0.0165887, 14.818)
@@ -4004,11 +4390,15 @@ polygon = PackedVector2Array(0, 0, -0.00980747, 0.205233, 0, 2.1, 1.2, 2.1, 1.2,
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0699911, 0, -0.0495663)
 
 [node name="DoorFrame2" parent="InteractableObjects/Doors" instance=ExtResource("7_8ok6j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.85189, 0.0259939, 9)
-polygon = PackedVector2Array(0, 0, -0.00980747, 0.205233, -0.0110915, 0.486817, -0.0181313, 0.879381, 0, 2.1, 1.2, 2.1, 1.2, 0, 1.1, 0, 1.1, 2, 0.1, 2, 0.1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.85189, 0.0259939, 6.6)
+polygon = PackedVector2Array(0, 0, -0.00980747, 0.205233, -0.0110915, 0.486817, -0.0181313, 0.879381, 0, 2.1, 1.2, 2.1, 1.2, 0, 1.1, 0, 0.1, 2, 0.1, 0)
 
-[node name="Door" parent="InteractableObjects/Doors/DoorFrame2" instance=ExtResource("7_umeh7")]
+[node name="Door" parent="InteractableObjects/Doors/DoorFrame2" instance=ExtResource("8_bg30g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0999999, 0, -0.0401649)
+fail_message = "The door is blocked by the planks"
+
+[node name="Plank" parent="InteractableObjects/Doors/DoorFrame2" instance=ExtResource("15_porc7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 1.2, -0.1)
 
 [node name="DoorFrame16" parent="InteractableObjects/Doors" instance=ExtResource("7_8ok6j")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.52182, 0.0259939, 10.2866)
@@ -4036,10 +4426,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0968208, 0, -0.074892)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.8519, 3.02599, 10.5213)
 polygon = PackedVector2Array(0, 0, -0.00980747, 0.205233, -0.0110915, 0.486817, -0.0181313, 0.879381, 0, 2.1, 1.2, 2.1, 1.2, 0, 1.1, 0, 1.1, 2, 0.1, 2, 0.1, 0)
 
-[node name="DoorFrame21" parent="InteractableObjects/Doors" instance=ExtResource("7_8ok6j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.88885, 0.0259939, 19.5262)
-polygon = PackedVector2Array(0, 0, -0.00980747, 0.205233, -0.0110915, 0.486817, -0.0181313, 0.879381, 0, 2.1, 1.2, 2.1, 1.2, 0, 1.1, 0, 1.1, 2, 0.1, 2, 0.1, 0)
-
 [node name="DoorFrame18" parent="InteractableObjects/Doors" instance=ExtResource("7_8ok6j")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -10.6519, -0.00972883, 5.92553)
 polygon = PackedVector2Array(0, 0, -0.00980747, 0.205233, -0.0110915, 0.486817, -0.0181313, 0.879381, 0, 2.1, 1.2, 2.1, 1.2, 0, 1.1, 0, 1.1, 2, 0.1, 2, 0.1, 0)
@@ -4047,6 +4433,9 @@ polygon = PackedVector2Array(0, 0, -0.00980747, 0.205233, -0.0110915, 0.486817, 
 [node name="Door" parent="InteractableObjects/Doors/DoorFrame18" instance=ExtResource("8_bg30g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0, -0.0813293)
 fail_message = "The door is blocked by the planks"
+
+[node name="Plank" parent="InteractableObjects/Doors/DoorFrame18" instance=ExtResource("15_porc7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 1.2, 0)
 
 [node name="DoorFrame19" parent="InteractableObjects/Doors" instance=ExtResource("7_8ok6j")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -7.65189, 0.0259939, 2.96498)
@@ -4097,91 +4486,80 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.466
 [node name="ElevatorButton2" parent="InteractableObjects/Elevator" instance=ExtResource("15_q627l")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.04296, 7.241, 5.96122)
 
+[node name="Items" type="Node3D" parent="InteractableObjects"]
+
+[node name="RooftopKey" type="AnimatableBody3D" parent="InteractableObjects/Items"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.3, 4.1, 11.4)
+script = ExtResource("18_e0fcm")
+item = 8
+object_name = " rooftop key"
+metadata/_custom_type_script = "uid://c4rw1rc01hti4"
+
+[node name="CSGBox3D" type="CSGBox3D" parent="InteractableObjects/Items/RooftopKey"]
+size = Vector3(0.2, 0.2, 0.2)
+material = SubResource("StandardMaterial3D_0jsh7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableObjects/Items/RooftopKey"]
+shape = SubResource("BoxShape3D_2t25u")
+
+[node name="Crowbar" parent="InteractableObjects/Items" instance=ExtResource("19_2t25u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 13)
+
+[node name="LostBook" type="AnimatableBody3D" parent="InteractableObjects/Items"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.6, 4.4, 9.8)
+script = ExtResource("18_e0fcm")
+item = 1
+metadata/_custom_type_script = "uid://c4rw1rc01hti4"
+
+[node name="CSGBox3D" type="CSGBox3D" parent="InteractableObjects/Items/LostBook"]
+size = Vector3(0.4, 0.5, 0.05)
+material = SubResource("StandardMaterial3D_gs7af")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableObjects/Items/LostBook"]
+shape = SubResource("BoxShape3D_uj1kv")
+
 [node name="SteamPump" parent="InteractableObjects" instance=ExtResource("16_xhc76")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.725328, -6.84083, -4.3)
 
 [node name="Pump" parent="InteractableObjects" instance=ExtResource("19_76mrf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.3, 1.5119, 31.6854)
 
-[node name="Fog" type="Node3D" parent="."]
+[node name="ElectricalPanel" parent="InteractableObjects" instance=ExtResource("21_0jsh7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 7.8, 12.1)
 
-[node name="FogVolume" type="FogVolume" parent="Fog"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.45, 4.95, -6.15)
-size = Vector3(53.1, 9.5, 11.7)
-material = SubResource("ShaderMaterial_34o8n")
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 14)
 
-[node name="FogVolume2" type="FogVolume" parent="Fog"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 4.9, 24)
-size = Vector3(53, 9.6, 8)
-material = SubResource("ShaderMaterial_34o8n")
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.24, 0)
+flip_faces = true
+size = Vector3(50, 0.01, 50)
+material = SubResource("ShaderMaterial_ensqo")
 
-[node name="FogVolume9" type="FogVolume" parent="Fog"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.7861, 4.9, 30.3609)
-size = Vector3(8.42773, 9.6, 4.9)
-material = SubResource("ShaderMaterial_34o8n")
-
-[node name="FogVolume10" type="FogVolume" parent="Fog"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.09043, 4.9, 30.3109)
-size = Vector3(25.3809, 9.6, 4.8)
-material = SubResource("ShaderMaterial_34o8n")
-
-[node name="FogVolume11" type="FogVolume" parent="Fog"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.379, 4.9, 30.4109)
-size = Vector3(7.95801, 9.6, 5)
-material = SubResource("ShaderMaterial_34o8n")
-
-[node name="FogVolume12" type="FogVolume" parent="Fog"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.70801, 4.9, 34.4109)
-size = Vector3(53.3, 9.6, 3)
-material = SubResource("ShaderMaterial_34o8n")
-
-[node name="FogVolume3" type="FogVolume" parent="Fog"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.85, 4.9, 10.25)
-size = Vector3(8.3, 9.6, 22.5)
-material = SubResource("ShaderMaterial_34o8n")
-
-[node name="FogVolume5" type="FogVolume" parent="Fog"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.4, 4.9, 0.749999)
-size = Vector3(7.2, 9.6, 3.5)
-material = SubResource("ShaderMaterial_34o8n")
-
-[node name="FogVolume6" type="FogVolume" parent="Fog"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.8, 4.9, 0.049999)
-size = Vector3(7.6, 9.6, 2.1)
-material = SubResource("ShaderMaterial_34o8n")
-
-[node name="FogVolume7" type="FogVolume" parent="Fog"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.1, 4.9, 0.249999)
-size = Vector3(2.6, 9.6, 2.1)
-material = SubResource("ShaderMaterial_34o8n")
-
-[node name="FogVolume8" type="FogVolume" parent="Fog"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.95, 4.9, 0.349999)
-size = Vector3(2.3, 9.6, 1.9)
-material = SubResource("ShaderMaterial_34o8n")
-
-[node name="FogVolume4" type="FogVolume" parent="Fog"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.15, 4.9, 10.25)
-size = Vector3(12.1, 9.6, 22.5)
-material = SubResource("ShaderMaterial_34o8n")
-
-[node name="Ground" type="CSGCombiner3D" parent="."]
-use_collision = true
-
-[node name="CSGBox3D" type="CSGBox3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 11.85)
-material_override = ExtResource("12_8o6hy")
-size = Vector3(53.6, 0.001, 48.3)
-material = ExtResource("12_8o6hy")
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.25, 0, 10.65)
-operation = 2
-size = Vector3(1.7, 1, 3.1)
-
+[connection signal="on_turning_electricy" from="." to="InteractableObjects/Items/Crowbar" method="on_electricy_turned"]
 [connection signal="on_turning_elevator_on" from="." to="InteractableObjects/Elevator/ElevatorBody" method="turn_on"]
+[connection signal="lock_the_books" from="InteractableObjects/Library/Lever" to="InteractableObjects/Library/Book" method="disable"]
+[connection signal="lock_the_books" from="InteractableObjects/Library/Lever" to="InteractableObjects/Library/Book2" method="disable"]
+[connection signal="lock_the_books" from="InteractableObjects/Library/Lever" to="InteractableObjects/Library/Book3" method="disable"]
+[connection signal="unlock_the_books" from="InteractableObjects/Library/Lever" to="InteractableObjects/Library/Book" method="unlock"]
+[connection signal="unlock_the_books" from="InteractableObjects/Library/Lever" to="InteractableObjects/Library/Book2" method="unlock"]
+[connection signal="unlock_the_books" from="InteractableObjects/Library/Lever" to="InteractableObjects/Library/Book3" method="unlock"]
+[connection signal="unlock_the_door" from="InteractableObjects/Library/Lever" to="InteractableObjects/Library/DoorFrame21/Door" method="unlock"]
+[connection signal="timeout" from="InteractableObjects/Library/Lever/Timer" to="InteractableObjects/Library/Lever" method="_on_timer_timeout"]
+[connection signal="on_book_pushed" from="InteractableObjects/Library/Book" to="InteractableObjects/Library/Lever" method="increase_book_counter"]
+[connection signal="on_required_item_used" from="InteractableObjects/Library/Book" to="InteractableObjects/Library/Lever" method="_on_lost_book_inserted"]
+[connection signal="on_book_pushed" from="InteractableObjects/Library/Book2" to="InteractableObjects/Library/Lever" method="increase_book_counter"]
+[connection signal="on_book_pushed" from="InteractableObjects/Library/Book3" to="InteractableObjects/Library/Lever" method="increase_book_counter"]
 [connection signal="on_unlock" from="InteractableObjects/Doors/DoorFrame/DoorLock" to="InteractableObjects/Doors/DoorFrame/Door" method="unlock"]
+[connection signal="on_remove" from="InteractableObjects/Doors/DoorFrame40/Plank" to="InteractableObjects/Doors/DoorFrame40/Door" method="unlock"]
+[connection signal="on_remove" from="InteractableObjects/Doors/DoorFrame41/Plank" to="InteractableObjects/Doors/DoorFrame41/Door" method="unlock"]
+[connection signal="on_unlock" from="InteractableObjects/Doors/DoorFrame15/DoorLock2" to="InteractableObjects/Doors/DoorFrame15/Door" method="unlock"]
+[connection signal="on_unlock" from="InteractableObjects/Doors/DoorFrame4/DoorLock" to="InteractableObjects/Doors/DoorFrame4/Door" method="unlock"]
+[connection signal="on_unlock" from="InteractableObjects/Doors/DoorFrame22/DoorLock" to="InteractableObjects/Doors/DoorFrame22/Door" method="unlock"]
+[connection signal="on_remove" from="InteractableObjects/Doors/DoorFrame2/Plank" to="InteractableObjects/Doors/DoorFrame2/Door" method="unlock"]
+[connection signal="on_remove" from="InteractableObjects/Doors/DoorFrame18/Plank" to="InteractableObjects/Doors/DoorFrame18/Door" method="unlock"]
 [connection signal="on_elevator_button_pressed" from="InteractableObjects/Elevator/ElevatorButton" to="InteractableObjects/Elevator/ElevatorBody" method="switch_state"]
 [connection signal="on_elevator_button_pressed" from="InteractableObjects/Elevator/ElevatorButton2" to="InteractableObjects/Elevator/ElevatorBody" method="switch_state"]
 [connection signal="on_steam_pump_turning_on" from="InteractableObjects/SteamPump" to="." method="turn_steam_pump_on"]
 [connection signal="on_pump_turning_on" from="InteractableObjects/Pump" to="." method="turn_pump_on"]
+[connection signal="on_electricy_turned" from="InteractableObjects/ElectricalPanel" to="." method="on_electricy_turned"]
